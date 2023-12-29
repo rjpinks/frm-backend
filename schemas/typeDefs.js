@@ -7,30 +7,30 @@ const typeDefs = gql`
         username: String
         email: String
         password: String
-        date: Date
-        posts: [Posts]
+        posts: [Post]
     }
 
     type Post {
         _id: ID!
         poster: String
         content: String
-        date: Date
+        date: String
         subFrm: String
-        posts: [postSchema]
     }
 
     type Query {
-        me: Profile
+        me: User
+        allUsers: [User]!
+        oneUser: User
     }
 
     type AuthResult {
         token: ID!
-        profile: Profile
+        profile: User
     }
 
     type Mutation {
-        createUser(username: String!, email: String!, password: String!): Profile
+        createUser(username: String!, email: String!, password: String!): User
         addPost(poster: String!, content: String!, subFrm: String!): Post
         login(email: String!, password: String!): AuthResult
     }

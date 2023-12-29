@@ -12,7 +12,13 @@ const resolvers = {
               return User.findOne({ _id: context.user._id });
             }
             throw new AuthenticationError('You need to be logged in!');
-          }
+          },
+        allUsers: async () => {
+          return User.find();
+        },
+        oneUser: async (parent, { userId }) => {
+          return User.findOne({ _id: userId });
+        }
     },
 
     Mutation: {

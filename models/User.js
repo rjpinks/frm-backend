@@ -1,5 +1,7 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
+const { ObjectId } = require("bson");
+const postSchema = require("./Post");
 
 function checkEmail(email) {
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -11,7 +13,9 @@ const userSchema = new Schema({
     username: {
         type: String,
         required: "A username is required",
-        unique: true
+        unique: true,
+        minlength: 1,
+        maxlength: 25
     },
     email: {
         type: String,
@@ -27,7 +31,11 @@ const userSchema = new Schema({
         minlength: 5,
         maxlength: 30
     },
-    // posts: [post],
+    date: {
+        type: Date,
+        required: true
+    },
+     posts: [postSchema]
 },
 {
     toJSON: {

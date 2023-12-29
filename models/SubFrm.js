@@ -1,9 +1,10 @@
 const { Schema, model } = require("mongoose");
+const postSchema = require("./Post");
 
 const subFrmSchema = new Schema({
-    buying: [posts],
-    selling: [posts],
-    discussion: [posts]
+    buying: [postSchema],
+    selling: [postSchema],
+    discussion: [postSchema]
 },
 {
     toJSON: {

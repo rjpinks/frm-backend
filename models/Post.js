@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const postSchema = new Schema({
     poster: {
-        type: Number,
+        type: String,
         required: true,
     },
     content: {
@@ -13,9 +13,13 @@ const postSchema = new Schema({
     },
     date: {
         type: Date,
-        required: true
+        default: Date.now
     },
-    posts: [postSchema]
+    subFrm: {
+        type: String,
+        require: true
+    },
+    //posts: [postSchema]
 },
 {
     toJSON: {

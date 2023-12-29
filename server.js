@@ -8,14 +8,14 @@ const { authMiddleware } = require('./utils/auth');
 
 
 // This will be used for making queries to the database
-// const { typeDefs, resolvers } = rquire("./schema");
+const { typeDefs, resolvers } = require("./schemas");
 db = require("./config/connection");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 const server = new ApolloServer({
-    // typeDefs,
-    // resolvers,
+    typeDefs,
+    resolvers,
     context: authMiddleware
 });
 

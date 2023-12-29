@@ -1,20 +1,22 @@
+// Imports routing and server
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const path = require("path");
 
-// This will be used later for bcrypt decryption
-// const { authMiddleware } = rquire("./utils/auth");
+// Taken from utils (jwt)
+const { authMiddleware } = require('./utils/auth');
+
 
 // This will be used for making queries to the database
 // const { typeDefs, resolvers } = rquire("./schema");
-// db = rquire("./config/connection");
+db = require("./config/connection");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 const server = new ApolloServer({
     // typeDefs,
     // resolvers,
-    // context: authMiddleware
+    context: authMiddleware
 });
 
 app.use(express.urlencoded({ extended: false }));

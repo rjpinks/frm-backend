@@ -1,0 +1,32 @@
+[
+    {
+        "username": "Novie",
+        "email": "novie@email.com",
+        "password": "tester",
+        "posts": []
+    },
+    {
+        "username": "Raindrop",
+        "email": "rd@email.com",
+        "password": "tester",
+        "posts": []
+    },
+    {
+        "username": "LePouf",
+        "email": "puffy@email.com",
+        "password": "tester",
+        "posts": []
+    },
+    {
+        "username": "Mhiskey",
+        "email": "mhiskey@email.com",
+        "password": "tester",
+        "posts": []
+    },
+    {
+        "username": "Elea",
+        "email": "Elea@email.com",
+        "password": "tester",
+        "posts": []
+    }
+]

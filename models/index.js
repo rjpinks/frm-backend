@@ -1,4 +1,4 @@
 const User = require("./User");
-const Post = require("./Post");
+const postSchema = require("./Post");
 
-module.exports = { User, Post };
+module.exports = { User, postSchema };

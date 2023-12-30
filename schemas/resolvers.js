@@ -34,9 +34,9 @@ const resolvers = {
         addPost: async (parent, args, context) => {
             if (context.user) {
               console.log('Context is in use!!');
+              console.log("USER ->",context.user);
       
-              const user = await Profile.findOne({ _id: context.user._id });
-      
+              const user = await User.findOne({ _id: context.user._id });
               if (!user) {
                 throw new Error('Profile not found');
               }

@@ -28,14 +28,13 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-        minlength: 5,
-        maxlength: 30
+        minlength: 5
     },
     date: {
         type: Date,
         default: Date.now
     },
-    //posts: [postSchema]
+    posts: [postSchema]
 },
 {
     toJSON: {

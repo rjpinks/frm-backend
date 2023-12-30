@@ -21,7 +21,7 @@ const typeDefs = gql`
     type Query {
         me: User
         allUsers: [User]!
-        oneUser: User
+        oneUser(_id: String!): User
     }
 
     type AuthResult {

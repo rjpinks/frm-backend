@@ -16,7 +16,7 @@ const resolvers = {
         allUsers: async () => {
           return User.find();
         },
-        oneUser: async (parent, { userId }) => {
+        oneUser: async (parent, userId) => {
           return User.findOne({ _id: userId });
         }
     },
@@ -50,6 +50,7 @@ const resolvers = {
           },
 
         login: async (parent, { email, password }) => {
+          console.log("login resolver triggered");
             const user = await User.findOne({ email });
       
             if (!user) {

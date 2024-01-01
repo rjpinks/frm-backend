@@ -37,24 +37,24 @@ module.exports = {
 
   login: async function (parent, { email, password }) {
     // Assuming you have a User model or a way to authenticate users
-    const Profile = require('../models/Profile');
+    const User = require('../models/User');
 
     // Find the user based on the provided email
-    const profile = await Profile.findOne({ email });
+    const user = await User.findOne({ email });
 
-    if (!profile) {
+    if (!user) {
       throw new AuthenticationError('Invalid email or password');
     }
 
     // Validate the password
-    const isValidPassword = await profile.validatePassword(password);
+    const isValidPassword = await user.validatePassword(password);
 
     if (!isValidPassword) {
       throw new AuthenticationError('Invalid email or password');
     }
 
     // Generate a token
-    const token = this.signToken({ email: profile.email, username: profile.username, _id: profile._id });
+    const token = this.signToken({ email: user.email, username: user.username, _id: user._id });
 
     // Return the token as the login result
     return { token };

@@ -24,10 +24,13 @@ const resolvers = {
     Mutation: {
 
         createUser: async (parent, args) => {
+            args["posts"] = [];
             const user = await User.create(args);
-            const token = signToken(user);
+            const user2 = await User.findOne({ email: args["email"] })
+            const token = signToken(user2);
             console.log('token -->', token)
             console.log('user -->', user)
+            if (token) { console.log("token signed", token) }
             return { token, user };
         },
 
@@ -64,6 +67,7 @@ const resolvers = {
             }
       
             const token = signToken(user);
+            console.log("token signed");
             return { token, user };
         }
     }

@@ -71,24 +71,41 @@ const resolvers = {
       return { token, user };
     },
 
-    updatePost: async (parent, context, { content, poster, postId }) => {
-      // return User.findByIdAndUpdate(
-      //   context.user._id,
-      //   { $set: {
-      //       content,
-      //       poster
-      //   } 
-      // })},
-      return User.where('post._id').gte(postId).updateMany(
-        { $set: { content, poster } }
-      )
+    updatePost: async (parent, { content, poster, postId }, context) => {
+      if (context.user) {
+        try {
+          const query = {
+            _id: context.user._id,
+            'posts._id': postId
+          };
+
+          const update = {
+            $set: {
+              'posts.$.content': content,
+              'posts.$.poster': poster
+            }
+          };
+
+          const result = await User.updateOne(query, update);
+
+          if (result.nModified === 0) {
+            throw new Error('Post not found or you do not have permission to update it.');
+          }
+
+          return { success: true, message: 'Post updated successfully.' };
+        } catch (error) {
+          return { success: false, message: error.message };
+        }
+      }
+      throw new AuthenticationError('You need to be logged in!');
     },
 
     removePost: async (parent, args, context, { content, postId }) => {
       return User.findByIdAndUpdate(
         context.user._id,
         { $pull: { posts: postId } }
-        )},
-      }
+      )
+    },
+  }
 }
 module.exports = resolvers;

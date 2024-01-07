@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User } = require("../models");
+const { User, Post } = require("../models");
 const { signToken, login } = require("../utils/auth");
 
 
@@ -100,12 +100,36 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
 
-    removePost: async (parent, args, context, { content, postId }) => {
-      return User.findByIdAndUpdate(
-        context.user._id,
-        { $pull: { posts: postId } }
-      )
-    },
+    removePost: async (_, { postId }, { user }) => {
+      try {
+        if (!user) {
+          throw new Error('User not authenticated.');
+        }
+    
+        const query = {
+          _id: user._id,
+          'posts._id': postId
+        };
+    
+        const update = {
+          $pull: {
+            posts: { _id: postId }
+          }
+        };
+    
+        const result = await User.updateOne(query, update);
+    
+        if (result.nModified === 0) {
+          throw new Error('Post not found or you do not have permission to delete it.');
+        }
+    
+        const updatedUser = await User.findById(user._id);
+    
+        return updatedUser;
+      } catch (error) {
+        throw new Error(`Error removing post: ${error.message}`);
+      }
+    }
   }
 }
 module.exports = resolvers;

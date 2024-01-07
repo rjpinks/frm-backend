@@ -78,20 +78,28 @@ const resolvers = {
             _id: context.user._id,
             'posts._id': postId
           };
-
-          const update = {
-            $set: {
-              'posts.$.content': content,
-              'posts.$.poster': poster
-            }
-          };
-
-          const result = await User.updateOne(query, update);
-
+    
+          const update = {};
+    
+          // Only include non-null fields in the update object
+          if (content !== "") {
+            update['posts.$.content'] = content;
+          }
+    
+          if (poster !== "") {
+            update['posts.$.poster'] = poster;
+          }
+    
+          if (Object.keys(update).length === 0) {
+            throw new Error('No valid fields to update.');
+          }
+    
+          const result = await User.updateOne(query, { $set: update });
+    
           if (result.nModified === 0) {
             throw new Error('Post not found or you do not have permission to update it.');
           }
-
+    
           return { success: true, message: 'Post updated successfully.' };
         } catch (error) {
           return { success: false, message: error.message };
@@ -99,6 +107,7 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
+    
 
     removePost: async (_, { postId }, { user }) => {
       try {
